@@ -157,10 +157,10 @@ typedef struct {
 #define HT_LAYOUT(ht)                                                                                                  \
     ((HT_Layout) {                                                                                                     \
         .key_offset = offsetof(__typeof__(*(ht)->data), key),                                                          \
-        .key_size = sizeof((ht)->data->key),                                                                           \
+        .key_size = sizeof((ht)->data->key), /* NOLINT(bugprone-sizeof-expression) */                                  \
                                                                                                                        \
         .value_offset = offsetof(__typeof__(*(ht)->data), value),                                                      \
-        .value_size = sizeof((ht)->data->value),                                                                       \
+        .value_size = sizeof((ht)->data->value), /* NOLINT(bugprone-sizeof-expression) */                              \
                                                                                                                        \
         .entry_size = sizeof(*(ht)->data),                                                                             \
     })
