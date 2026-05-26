@@ -138,14 +138,12 @@ typedef uint64_t (*HT_Hasheq)(const void *a, const void *b, size_t n);
         (void *) &(it).key,                                                                                            \
         (void *) &(it).value)
 
+// The initial capacity of the hash table
+#ifndef HT_INIT_CAP
+#define HT_INIT_CAP 128
+#endif // HT_INIT_CAP
+
 // Private Definitions ////////////////////////////////////////////////////////////////////////////////
-#define HT_EMPTY     0
-#define HT_OCCUPIED  1
-#define HT_TOMBSTONE 2
-
-#define HT_LOAD     0.75
-#define HT_INIT_CAP 16
-
 typedef struct {
     size_t key_offset;
     size_t key_size;
@@ -190,6 +188,12 @@ bool ht_iter_impl(
 #ifdef HT_IMPLEMENTATION
 
 #include <assert.h>
+
+#define HT_EMPTY     0
+#define HT_OCCUPIED  1
+#define HT_TOMBSTONE 2
+
+#define HT_LOAD 0.75
 
 uint64_t ht_hasheq_bytes(const void *a, const void *b, size_t n) {
     if (b) {
