@@ -116,6 +116,7 @@ typedef uint64_t (*HT_Hasheq)(const void *a, const void *b, size_t n);
 //     printf("%s => %d\n", *x.key, *x.value);
 // }
 #define ht_foreach(it, ht)                                                                                             \
+    MSVC_SUPPRESS_4116                                                                                                 \
     for (HT_Iter(__typeof__((ht)->data->key), __typeof__((ht)->data->value)) it = {0}; ht_iter(ht, it);)
 
 #define HT_Iter(K, V)                                                                                                  \
@@ -182,6 +183,12 @@ void ht_delete_impl(void *data, size_t *count, size_t capacity, HT_Layout layout
 
 bool ht_iter_impl(
     void *data, size_t capacity, HT_Layout layout, bool *started, size_t *index, void **key, void **value);
+
+#ifdef _MSC_VER
+#define MSVC_SUPPRESS_4116 __pragma(warning(suppress : 4116))
+#else
+#define MSVC_SUPPRESS_4116
+#endif // _MSC_VER
 
 #endif // HT_H
 
